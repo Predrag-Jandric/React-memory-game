@@ -1,9 +1,14 @@
-function App() {
+import React, { useState } from "react";
+import Header from "./components/Header";
+// import GameBoard from "./components/GameBoard";
+
+const App = () => {
   return (
-    <>
-      <h1 className="font-extrabold text-red-800 text-5xl">react</h1>
-    </>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <Header />
+      {/* <GameBoard /> */}
+    </div>
   );
-}
+};
 
 export default App;
