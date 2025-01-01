@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import Card from "./Card";
 
 const GameBoard = () => {
-  const initialCards = ["🥑", "🍌", "🍓", "🍇", "🥑", "🍌", "🍓", "🍇"];
+  const initialCards = ["🍎", "🍌", "🍓", "🍇", "🍎", "🍌", "🍓", "🍇"];
   const [shuffledCards, setShuffledCards] = useState([]);
-  const [selectedCards, setSelectedCards] = useState([]);
+  const [flippedCards, setFlippedCards] = useState([]); 
+  const [matchedCards, setMatchedCards] = useState([]); 
 
+  
   useEffect(() => {
-    setShuffledCards(shuffleArray(initialCards));
+    resetGame();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const shuffleArray = (array) => {
@@ -18,22 +21,48 @@ const GameBoard = () => {
   };
 
   const handleCardClick = (index) => {
-    if (selectedCards.length < 2) {
-      setSelectedCards([...selectedCards, index]);
+    if (matchedCards.includes(index) || flippedCards.includes(index)) return;
+
+    const newFlippedCards = [...flippedCards, index];
+    setFlippedCards(newFlippedCards);
+
+    if (newFlippedCards.length === 2) {
+      const [firstIndex, secondIndex] = newFlippedCards;
+      if (shuffledCards[firstIndex] === shuffledCards[secondIndex]) {
+        setMatchedCards((prev) => [...prev, firstIndex, secondIndex]);
+      }
+
+      setTimeout(() => {
+        setFlippedCards([]);
+      }, 1000);
     }
   };
 
+  const resetGame = () => {
+    setShuffledCards(shuffleArray(initialCards));
+    setFlippedCards([]);
+    setMatchedCards([]);
+  };
+
   return (
-    <div className="grid grid-cols-4 gap-4">
-      {shuffledCards.map((card, index) => (
-        <Card
-          key={index}
-          card={card}
-          index={index}
-          isFlipped={selectedCards.includes(index)}
-          onClick={handleCardClick}
-        />
-      ))}
+    <div className="flex flex-col items-center">
+      <div className="grid grid-cols-4 gap-4 mb-4">
+        {shuffledCards.map((card, index) => (
+          <Card
+            key={index}
+            card={card}
+            isFlipped={flippedCards.includes(index) || matchedCards.includes(index)}
+            isMatched={matchedCards.includes(index)}
+            onClick={() => handleCardClick(index)}
+          />
+        ))}
+      </div>
+      <button
+        onClick={resetGame}
+        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      >
+        Reset Game
+      </button>
     </div>
   );
 };
