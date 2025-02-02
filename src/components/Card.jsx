@@ -1,4 +1,3 @@
-import React from "react";
 
 const Card = ({ card, isFlipped, isMatched, onClick }) => {
   return (

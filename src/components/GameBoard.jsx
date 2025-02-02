@@ -16,6 +16,7 @@ const GameBoard = () => {
       setTime((prevTime) => prevTime + 1);
     }, 1000);
     return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
