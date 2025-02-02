@@ -1,6 +1,6 @@
 # React - Memory Matching Game
 
-# 🔗 [Live Preview]()
+# 🔗 [Live Preview](https://charming-kitten-2c05c4.netlify.app/)
 
 ![Design preview](./public/preview.png)
 
